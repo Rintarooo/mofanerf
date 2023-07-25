@@ -136,3 +136,15 @@ If you find this project helpful to your research, please consider citing:
   year={2022}
 }
 ```
+
+# Usage
+```bash
+# VM上でビルド
+docker-compose -f .devcontainer/docker-compose.yml build mofanerf
+# docker-compose build
+# docker-compose build --no-cache
+
+xhost local:root
+
+docker-compose -f .devcontainer/docker-compose.yml run mofanerf /bin/bash
+```
