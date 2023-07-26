@@ -4,3 +4,4 @@ __pycache__
 .idea
 logs/
 pretrained_models.tar.gz
+/data/fit

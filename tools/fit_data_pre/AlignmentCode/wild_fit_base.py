@@ -197,7 +197,13 @@ class pose_estimate():
         with np.errstate(invalid='ignore'):
             v = rot_vec / theta
             v = np.nan_to_num(v).reshape(3, 1)  # nan->0 inf->big number
-        t = np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
+        # print("v: ", v)
+        # print("v[0]: ", v[0])
+        # print("v[0][0]: ", v[0][0])
+        # print("v[1]: ", v[1])
+        # print("v[2]: ", v[2])       
+        # t = np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
+        t = np.array([[0, -v[2][0], v[1][0]], [v[2][0], 0, -v[0][0]], [-v[1][0], v[0][0], 0]])
         R = np.cos(theta) * (np.eye(3)) + (1 - np.cos(theta)) * (v).dot(v.T) + np.sin(theta) * t
         return R
 

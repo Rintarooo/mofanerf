@@ -21,13 +21,16 @@ def project(lm3d, pose, debug=True):
     # project 3d to 2d
     lm2d = K @ Rt[:3, :] @ (np.concatenate([lm3d, np.ones([lm3d.shape[0], 1])], 1).T)
     lm2d_half = lm2d // lm2d[2, :]
-    lm2d = np.round(lm2d_half).astype(np.long)[:2, :].T @ M[:2, :2]  # .T[:,:2]  #[68,2]
+    # lm2d = np.round(lm2d_half).astype(np.long)[:2, :].T @ M[:2, :2]  # .T[:,:2]  #[68,2]
+    # https://appdividend.com/2023/07/17/attributeerror-module-numpy-has-no-attribute-long/
+    lm2d = np.round(lm2d_half).astype(np.int64)[:2, :].T @ M[:2, :2]  # .T[:,:2]  #[68,2]
 
     lm2d[:, 1] = 512 + lm2d[:, 1]
     print(lm2d.max(), lm2d.min())
     if debug == True:
         img = np.zeros([256, 256, 3])
-        lm2d_view = lm2d.astype(np.long) // 2
+        # lm2d_view = lm2d.astype(np.long) // 2
+        lm2d_view = lm2d.astype(np.int64) // 2
         img[lm2d_view[:, 0], lm2d_view[:, 1], :] = np.ones([3])
 
         # plt.imshow(img)
