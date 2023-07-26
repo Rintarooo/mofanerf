@@ -42,11 +42,11 @@ class LMModule:
         # change landmakr face around ratio
         lm2d = self.landmark // scale
 
-        p = np.long(numOfPoint * 2 // self.lmNum)
+        p = np.int64(numOfPoint * 2 // self.lmNum)
         wid = self.H * 0.025 / scale
         rand = np.random.randn(p, 2) * wid
         sampleLandMark = lm2d[:, None, :].repeat(p, 1) + rand[None, :, :].repeat(self.lmNum, 0)
-        sampleLandMark = sampleLandMark.reshape(-1, 2).astype(np.int)
+        sampleLandMark = sampleLandMark.reshape(-1, 2).astype(np.int32)
         if tar_img is not None:
             sum_tar_img = np.sum(tar_img, 2)[:, :, None]
             # delete out of face
@@ -70,7 +70,7 @@ class LMModule:
             else:
                 res_sampleLandMark = sampleLandMark[np.random.choice(np.arange(lenOfPoint), numOfPoint), :]
                 sampleLandMark = res_sampleLandMark
-            sampleLandMark = sampleLandMark.astype(np.int)
+            sampleLandMark = sampleLandMark.astype(np.int32)
             assert sampleLandMark.max() < tar_img.shape[0] and sampleLandMark.min() > 0
 
         if is_debug == True:
@@ -188,7 +188,7 @@ def train(src_path=None, renderType=None, num_iterations=2000, is_load_par=False
 
     print("!!!!! no crop !!!!")
     crop_img_raw = crop_img_raw_uint8 / 255.
-    small_scale = np.log2(8).astype(np.int)
+    small_scale = np.log2(8).astype(np.int32)
     if args.half_res:
         small_scale = small_scale + 1
         scale_now = 2 ** (small_scale)
