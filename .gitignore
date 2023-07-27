@@ -5,3 +5,4 @@ __pycache__
 logs/
 pretrained_models.tar.gz
 /data/fit
+/my_data/

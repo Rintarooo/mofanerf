@@ -148,3 +148,37 @@ xhost local:root
 
 docker-compose -f .devcontainer/docker-compose.yml run mofanerf /bin/bash
 ```
+
+- ### Fitting my data
+#### 1. Prepare your data first
+```
+ python ./tools/wildData_preprocess.py --filePath ./my_data/fit/
+```
+#### 2. Fit to the processed image
+This demo show how to fit our model to target image.
+```
+python run_fit.py --filePath ./my_data/fit/segRelRes/1.png
+```
+#### 3. Render images of novel views
+This demo show how to render novel views with the fitted parameters, and just simply add one parameter "--renderType rendering".
+```
+python run_fit.py --filePath ./my_data/fit/segRelRes/1.png --renderType rendering  
+```
+#### 4. Refine the rendered results
+This demo show how to use our refinement module to enrich details of the rendered results.
+
+The refined results will be saved in folder `refine`  in the same parent directory as the target folder.
+```
+python run_refine.py --name facescape --nerf_folder ./my_data/fit/fitting/segRelRes_1/render/
+```
+- ### Face Rigging and Editing
+#### 1. Render modulation results
+This demo simply show how to rig and edit the fitting results.
+```
+python run_fit.py --filePath ./my_data/fit/segRelRes/1.png --renderType rendering_modulation
+```
+#### 2. Refine the rendered results
+
+```
+python run_refine.py --name facescape --nerf_folder ./my_data/fit/fitting/segRelRes_1/render/
+```
