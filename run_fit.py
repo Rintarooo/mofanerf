@@ -362,7 +362,7 @@ def train(src_path=None, renderType=None, num_iterations=2000, is_load_par=False
             K = K_raw / scale_now
         testsavedir = os.path.join(testsavedir, "render")
         os.makedirs(testsavedir, exist_ok=True)
-        for angle in [-60, 0, 60]:
+        for angle in [-60, 0, 60, 90, 120, 150, 180]:
             target_pose = pose_spherical(float(angle), 0, 800.0 / 50)
             with torch.no_grad():
                 rgb, disp, acc, _ = render.render_fitting(H, W, K, chunk=args.chunk, c2w=target_pose[:3, :4],
